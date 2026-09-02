@@ -17,9 +17,9 @@
 仓库公开后，三端可使用以下 Raw 地址：
 
 ```text
-Clash/Mihomo: https://raw.githubusercontent.com/Erwin-lark/local-rules/main/clash-rules.yaml
-Loon:         https://raw.githubusercontent.com/Erwin-lark/local-rules/main/loon-rules.lsr
-Quantumult X: https://raw.githubusercontent.com/Erwin-lark/local-rules/main/quantumult-x-rules.list
+Clash/Mihomo: https://raw.githubusercontent.com/Erwin-lark/Proxy/main/clash-rules.yaml
+Loon:         https://raw.githubusercontent.com/Erwin-lark/Proxy/main/loon-rules.lsr
+Quantumult X: https://raw.githubusercontent.com/Erwin-lark/Proxy/main/quantumult-x-rules.list
 ```
 
 在各客户端中将对应地址作为远程规则添加，并按规则文件中的策略组名称匹配本地策略组。
