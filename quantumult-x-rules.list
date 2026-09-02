@@ -1,0 +1,110 @@
+# Public-safe custom rules for Quantumult X.
+# This file intentionally excludes node subscription URLs, VPS IPs and private service domains.
+
+# Hong Kong banks
+host-suffix, elebank, 香港银行
+host-suffix, elebank.com, 香港银行
+host-suffix, za.group, 香港银行
+host-suffix, hsbc.com.hk, 香港银行
+host-suffix, hsbcnet.com, 香港银行
+host-suffix, hsbc.com, 香港银行
+host-suffix, sc.com, 香港银行
+host-suffix, bochk.com, 香港银行
+host-suffix, hangseng.com, 香港银行
+host-suffix, hkbea.com, 香港银行
+host-suffix, citibank.com.hk, 香港银行
+host-suffix, dahsing.com, 香港银行
+host-suffix, shacombank.com.hk, 香港银行
+host-suffix, fubonbank.com.hk, 香港银行
+host-suffix, ncb.com.hk, 香港银行
+host-suffix, cmbwinglungbank.com, 香港银行
+host-suffix, mox.com, 香港银行
+host-suffix, welab.bank, 香港银行
+host-suffix, livibank.com, 香港银行
+host-suffix, antbank.hk, 香港银行
+host-suffix, paob.com.hk, 香港银行
+host-suffix, airstarbank.com, 香港银行
+
+# Hong Kong brokers
+host-suffix, chiefgroup.com.hk, 香港证券
+host-suffix, chieftrade.com.hk, 香港证券
+host-suffix, fosunwealth.com, 香港证券
+host-suffix, fosunhani.com, 香港证券
+host-suffix, fotechwealth.com.cn, 香港证券
+host-suffix, xinfinance.com, 香港证券
+
+# US brokers
+host-suffix, firstrade.com, 美国证券
+host-suffix, firstrade.net, 美国证券
+host-suffix, firstrade.info, 美国证券
+host-suffix, schwab.com, 美国证券
+host-suffix, schwabplan.com, 美国证券
+host-suffix, schwabinstitutional.com, 美国证券
+host-suffix, schwaballiance.com, 美国证券
+host-suffix, schwabapi.com, 美国证券
+host-suffix, schwabcdn.com, 美国证券
+host-suffix, thinkorswim.com, 美国证券
+host-suffix, tdameritrade.com, 美国证券
+host-suffix, schwab.com.hk, 美国证券
+host-suffix, schwab.com.sg, 美国证券
+host-suffix, schwab.co.uk, 美国证券
+
+# Cross-border finance
+host-suffix, wise.com, Wise
+host-suffix, transferwise.com, Wise
+host-suffix, starryblu.com, Starryblu
+host-suffix, wotransfer.com, Starryblu
+host-suffix, fsmone.com, direct
+host-suffix, fsmone.com.hk, direct
+host-suffix, fsmone.com.my, direct
+host-suffix, fundsupermart.com, direct
+host-suffix, ifastcapital.com.my, direct
+host-suffix, ifastcorp.com, direct
+host-suffix, ifastfinancial.com.hk, direct
+host-suffix, ifastfinancial.co.in, direct
+host-suffix, ifastgb.com, direct
+host-suffix, ifastgp.com, direct
+host-suffix, ifastgp.com.hk, direct
+host-suffix, ifastnetwork.com, direct
+host-suffix, ifastps.com.cn, direct
+host-suffix, ifasttv.com, direct
+
+# AI, messaging and speed-test domains
+host-suffix, x.ai, Grok
+host-suffix, grok.com, Grok
+host-keyword, manus, Manus
+host-suffix, monica.im, Manus
+host-suffix, manus.im, Manus
+host-keyword, signal, Signal
+host-suffix, signalcaptchas.org, Signal
+host-suffix, sfu.voip.signal.org, Signal
+host-suffix, signal.tube, Signal
+host-suffix, signal.org, Signal
+host-suffix, hkcsl.com, direct
+host-suffix, 1010.com.hk, direct
+host-suffix, clubsim.com.hk, direct
+host-suffix, ookla.com, Speedtest
+host-suffix, nperf.com, Speedtest
+host-suffix, nperf.net, Speedtest
+host-suffix, testmy.net, Speedtest
+host-suffix, speedof.me, Speedtest
+host-suffix, openspeedtest.com, Speedtest
+host-suffix, librespeed.org, Speedtest
+host-suffix, measurementlab.net, Speedtest
+host-suffix, measurement-lab.org, Speedtest
+
+# Public software and download domains
+host-suffix, microsoft.com, direct
+host-suffix, windowsupdate.com, direct
+host-suffix, windows.com, direct
+host-suffix, d5render.cn, direct
+host-suffix, d5render.com, direct
+host-suffix, support.d5render.com, direct
+host-suffix, myspace.d5render.com, direct
+host-suffix, docs.d5render.cn, direct
+host-suffix, forum.d5render.cn, direct
+host-suffix, upln.cn, direct
+host-suffix, ncss.cn, direct
+host-suffix, blip.net, direct
+host-suffix, blip.tv, direct
+host-keyword, blip, direct
