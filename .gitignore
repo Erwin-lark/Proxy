@@ -1,0 +1,13 @@
+# 本地历史备份与系统文件
+backups/
+.DS_Store
+
+# 订阅运行时缓存，避免把下载的节点文件提交到仓库
+proxy_providers/
+rule-providers/
+
+# 本地编辑器与临时文件
+.vscode/
+.idea/
+*.swp
+*.tmp
