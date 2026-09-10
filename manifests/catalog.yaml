@@ -1,0 +1,33 @@
+schema: 1
+repository:
+  id: proxy
+  visibility: public
+  distribution: static-assets-only
+assets:
+  - id: rules.public.clash
+    type: ruleset
+    client: mihomo
+    path: clash-rules.yaml
+    version: 1.0.0
+    public: true
+    sha256: 1c17034a376e24a0545830679003b23ea963483127114c8c7b15563bab36acf9
+    policy: public-routing-groups
+    status: active
+  - id: rules.public.loon
+    type: ruleset
+    client: loon
+    path: loon-rules.lsr
+    version: 1.0.0
+    public: true
+    sha256: e73f7f96ef9eee175dfb2016e316e82cb71e455ec8b9b197b34e0805a72925d1
+    policy: public-routing-groups
+    status: active
+  - id: rules.public.quantumult-x
+    type: ruleset
+    client: quantumult-x
+    path: quantumult-x-rules.list
+    version: 1.0.0
+    public: true
+    sha256: a47b9882fb7f99ce160720490360a925e8cdd6017616c9f6690249d6f2e0df385
+    policy: public-routing-groups
+    status: active
