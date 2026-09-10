@@ -1,0 +1,7 @@
+schema: 1
+policies:
+  - id: public-routing-groups
+    display_name: Public routing groups
+    default_behavior: inherited-from-client
+    status: active
+    notes: The rulesets reference local client policy-group names; this catalog does not publish nodes or complete client configuration.
