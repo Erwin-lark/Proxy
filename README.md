@@ -1,27 +1,19 @@
-# 本地规则配置
+# Proxy
 
-用于发布个人使用的 Clash、Loon 与 Quantumult X 远端规则订阅。
+`Proxy` 是 RelayDeck 配套的公开静态资产仓库：保存已脱敏、可版本化、可直接引用的规则集、脚本、插件、图标与配置模板。
 
-## 文件说明
+RelayDeck 是节点订阅与完整远程配置的唯一生产生成和发布源。客户端的完整配置、节点、令牌和其他私密信息不会存入本仓库。
 
-- `clash-rules.yaml`：Clash/Mihomo 规则集
-- `loon-rules.lsr`：Loon 远程规则
-- `quantumult-x-rules.list`：Quantumult X 远程过滤器
+## 当前远端规则
 
-## 安全提示
+- Clash / Mihomo：[clash-rules.yaml](https://raw.githubusercontent.com/Erwin-lark/Proxy/main/clash-rules.yaml)
+- Loon：[loon-rules.lsr](https://raw.githubusercontent.com/Erwin-lark/Proxy/main/loon-rules.lsr)
+- Quantumult X：[quantumult-x-rules.list](https://raw.githubusercontent.com/Erwin-lark/Proxy/main/quantumult-x-rules.list)
 
-本仓库只发布可公开的规则域名，不包含节点订阅地址、账号凭据、VPS IP 或个人服务域名。
+## 维护与 RelayDeck 接入
 
-## 订阅地址
+请阅读[运行手册](RUNBOOK.md)，其中定义了客户端目录分层、资产清单、版本与哈希校验、RelayDeck 接入门禁、发布和回滚流程。
 
-仓库公开后，三端可使用以下 Raw 地址：
+## 安全边界
 
-```text
-Clash/Mihomo: https://raw.githubusercontent.com/Erwin-lark/Proxy/main/clash-rules.yaml
-Loon:         https://raw.githubusercontent.com/Erwin-lark/Proxy/main/loon-rules.lsr
-Quantumult X: https://raw.githubusercontent.com/Erwin-lark/Proxy/main/quantumult-x-rules.list
-```
-
-在各客户端中将对应地址作为远程规则添加，并按规则文件中的策略组名称匹配本地策略组。
-
-完整本地配置、节点订阅地址、历史备份和 `vps-subscription-hub/` 不属于本仓库内容，默认不发布。
+禁止提交节点、订阅 URL、令牌、密钥、证书、VPS IP、个人服务域名，或包含它们的完整客户端配置。只有经过脱敏且确认可公开的静态资产，才能通过 GitHub Raw 分发。
