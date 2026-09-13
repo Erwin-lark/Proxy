@@ -7,7 +7,7 @@ import { createGitHubReadbackClient } from '../tools/github-readback.mjs';
 import { summarizePublication } from '../tools/prepare-publication.mjs';
 import { ROOT } from '../tools/proxy-manifest.mjs';
 import { readbackRelease } from '../tools/readback-release.mjs';
-import { createRelayDeckPublicationInputFixture } from './fixtures/relaydeck-publication-input.mjs';
+import { createRelayDeckPublicationInputFixture, createRelayDeckTargetTreePublicationInputFixture } from './fixtures/relaydeck-publication-input.mjs';
 
 test('v1.0 manifest is deterministic and reads back every managed asset', () => {
   const result = readbackRelease({ releaseId: 'v1.0' });
@@ -67,6 +67,31 @@ test('RelayDeck fixture exposes the complete publication input, not the CLI summ
   assert.equal(fixture.files.every(file => /^[a-f0-9]{64}$/.test(file.contentHash)), true);
   assert.equal(Object.hasOwn(fixture, 'mode'), false);
   assert.equal(Object.hasOwn(fixture, 'networkWrites'), false);
+});
+
+test('target-tree publication input includes the root tree and complete R1/R2 snapshots', () => {
+  const fixture = createRelayDeckTargetTreePublicationInputFixture();
+  const paths = new Set(fixture.files.map(file => file.path));
+  assert.equal(fixture.version, 'v1.1');
+  assert.equal(fixture.releaseId, 'v1.1');
+  assert.equal(fixture.targetReleaseId, 'r2');
+  assert.equal(fixture.files.length, fixture.manifest.files.length + 1);
+  for (const path of [
+    'source/manifest.json',
+    'source/common/groups.json',
+    'source/rulesets/ai-messaging-speed-test/entries.json',
+    'rules/catalog.json',
+    'rules/hong-kong-banks/Clash.yaml',
+    'rules/hong-kong-banks/Loon.lsr',
+    'releases/r1/manifest.json',
+    'releases/r2/configs/clash/config.yaml',
+    'releases/r2/assets/common/icons/public-routing-groups.svg',
+    'releases/v1.1/manifest.json',
+  ]) assert.equal(paths.has(path), true, path);
+  assert.equal(fixture.manifest.sourceHash, JSON.parse(fixture.files.find(file => file.path === 'source/manifest.json').content).sourceHash);
+  assert.equal(fixture.manifest.files.length, 96);
+  assert.equal(fixture.files.every(file => file.byteLength === Buffer.byteLength(file.content)), true);
+  assert.equal(fixture.files.every(file => /^[a-f0-9]{64}$/.test(file.contentHash)), true);
 });
 
 function response(status, payload) {

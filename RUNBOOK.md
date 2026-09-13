@@ -170,7 +170,9 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 `tools/github-release-adapter.mjs` 的 `preparePublication()` 输出完整的 `{version, releaseId, manifest, files, commitMessage}`，其中 `files` 包含根目录兼容资产、受管元数据和 `releases/<releaseId>/manifest.json`；每个文件同时提供 `contentHash` 和 `byteLength`，可直接交给 Web `github-write-client.commitTree()`，以便入口校验正文完整性。manifest 文件使用单行 JSON，与 RelayDeck `github-write-client.safeFiles` 的字节合同一致。该模块只准备输入并校验回读身份；reserve、commit/tree、分支更新、tag、Release、缓存和活动切换仍由 RelayDeck 的可恢复任务流水线负责。
 
-Proxy 静态资产清单与 Web 策略发布清单是两种不同的组件合同：Proxy manifest 的 `files[]` 描述公开仓库资产；Web loader 的 manifest 使用 `revisionId`、`artifacts[]` 和 `dependencies[]` 描述一次策略生成。两者共享 `version`、`releaseId`、`manifestHash` 及 `{path, content, contentHash}` 文件输入约束；Proxy 适配器当前要求静态 release 的 `releaseId === version`，并按 `releases/<version>/manifest.json` 组织 manifest。不能把 CLI 摘要当作完整输入，也不能把 Proxy 的静态清单冒充 Web 的策略修订清单。网站方接入 Proxy 时应调用 `preparePublication()` 的函数返回值，并继续由现有 pipeline 执行版本预读、提交、Tag/Release、回读、缓存和活动切换。固定完整输入 fixture 位于 `tests/fixtures/relaydeck-publication-input.mjs`。
+`preparePublication({ releaseId: 'v1.0' })` 继续提供旧兼容输入。目标树正式输入使用 `preparePublication({ releaseId: 'v1.1' })`（实现位于 `tools/target-publication.mjs`）：它绑定当前 `targetReleaseId: r2`，把根级 `source/manifest.json`、`source/common/`、`source/rulesets/`、`rules/catalog.json`、按服务规则、`assets/` 以及完整 `releases/r1`、`releases/r2` 快照纳入同一 manifest；`manifest.files` 有 96 项，提交 `files` 另包含 `releases/v1.1/manifest.json` 本身。`npm run target-publication` 只在本地生成该确定性 manifest，不调用 GitHub。目标树 manifest 的 `sourceHash` 与 r2 source manifest 一致，`snapshots[]` 记录 r1/r2 manifest 哈希，Web 应以这些字段和逐文件哈希作为只读门禁，不应把旧 v1.0 清单当作目标树清单。
+
+Proxy 静态资产清单与 Web 策略发布清单是两种不同的组件合同：Proxy manifest 的 `files[]` 描述公开仓库资产；Web loader 的 manifest 使用 `revisionId`、`artifacts[]` 和 `dependencies[]` 描述一次策略生成。两者共享 `version`、`releaseId`、`manifestHash` 及 `{path, content, contentHash}` 文件输入约束；Proxy 旧 v1.0 适配器要求静态 release 的 `releaseId === version`，目标 v1.1 输入也按 `releases/v1.1/manifest.json` 组织并把 r2 作为目标快照。不能把 CLI 摘要当作完整输入，也不能把 Proxy 的静态清单冒充 Web 的策略修订清单。网站方接入 Proxy 时应调用 `preparePublication()` 的函数返回值，并继续由现有 pipeline 执行版本预读、提交、Tag/Release、回读、缓存和活动切换。固定完整输入 fixture 位于 `tests/fixtures/relaydeck-publication-input.mjs`；目标目录只读门禁应检查 Proxy 的 `targetPublication`/`snapshots` 绑定，不应把生成规则文件当成第二编辑源。
 
 ## 9. 发布前检查清单
 
@@ -186,4 +188,4 @@ Proxy 静态资产清单与 Web 策略发布清单是两种不同的组件合同
 
 ## 10. 当前状态
 
-当前仓库保留三端基础远端规则文件，并已建立目标 `source/`、按服务分层的 `rules/`、真实图标资产、`releases/r1` 与 `releases/r2` 本地快照，以及 `target-tree` 生成/校验工具。`npm run check` 验证本地适配器、发布摘要、mock 远端回读和目标树；`npm run validate` 验证全仓库清单哈希、路径安全和敏感信息边界；`npm run validate-target-tree` 验证目标 source、客户端顺序、补丁、release 文件哈希和导入合同。`npm run prepare-publication` 仍只输出 RelayDeck 发布前摘要；`npm run remote-readback` 只读真实公开仓库，当前工作未创建 tag/Release、未推送 GitHub，也不代表 Proxy 已正式发布到生产。
+当前仓库保留三端基础远端规则文件，并已建立目标 `source/`、按服务分层的 `rules/`、真实图标资产、`releases/r1` 与 `releases/r2` 本地快照、目标 v1.1 发布 manifest，以及 `target-tree`/`target-publication` 生成校验工具。`npm run check` 验证本地适配器、发布摘要、mock 远端回读和目标树；`npm run validate` 验证全仓库清单哈希、路径安全和敏感信息边界；`npm run validate-target-tree` 验证目标 source、客户端顺序、补丁、release 文件哈希和导入合同。`npm run prepare-publication -- --release v1.1` 可输出目标树的 digest-only 发布摘要；`npm run remote-readback` 只读真实公开仓库，当前工作未创建 tag/Release、未推送 GitHub，也不代表 Proxy 已正式发布到生产。

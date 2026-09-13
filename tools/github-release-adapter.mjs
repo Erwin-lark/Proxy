@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildManifest, ROOT } from './proxy-manifest.mjs';
+import { prepareTargetPublication } from './target-publication.mjs';
 
 function mismatch(message, code = 'proxy_release_readback_mismatch') {
   const error = new Error(message);
@@ -19,6 +20,7 @@ function sha256(value) {
  * 的独立适配器负责，并且必须在提交、tag、Release 后按同一 releaseId 回读。
  */
 export function preparePublication({ root = ROOT, releaseId = 'v1.0', createdAt } = {}) {
+  if (releaseId === 'v1.1') return prepareTargetPublication({ root, version: releaseId, ...(createdAt ? { createdAt } : {}) });
   const manifest = buildManifest({ root, releaseId, ...(createdAt ? { createdAt } : {}) });
   const files = manifest.files.map(entry => ({
     path: entry.path,

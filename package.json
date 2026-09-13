@@ -13,6 +13,7 @@
     "validate": "node tools/validate-proxy.mjs",
     "target-tree": "node tools/target-tree.mjs",
     "validate-target-tree": "node tools/target-tree.mjs --validate",
+    "target-publication": "node tools/target-publication.mjs",
     "readback": "node tools/readback-release.mjs",
     "remote-readback": "node tools/github-readback.mjs"
   }

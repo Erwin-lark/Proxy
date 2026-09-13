@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { createRelayDeckPublicationInputFixture } from './fixtures/relaydeck-publication-input.mjs';
+import { createRelayDeckPublicationInputFixture, createRelayDeckTargetTreePublicationInputFixture } from './fixtures/relaydeck-publication-input.mjs';
 
 const webRoot = process.env.RELAYDECK_WEB_ROOT;
 const skipReason = webRoot ? false : '设置 RELAYDECK_WEB_ROOT 后运行跨仓库 GitHub 合同测试';
@@ -71,4 +71,22 @@ test('Web github-write-client rejects Proxy正文篡改、路径冲突和版本�
     () => newClient().commitTree({ version: 'v1.1', manifest: fixture.manifest, files: wrongVersion }),
     error => error?.code === 'github_manifest_conflict' && error.status === 409,
   );
+});
+
+test('Web github-write-client consumes the target-tree publication input', { skip: skipReason }, async () => {
+  const { createGitHubWriteClient } = await import(pathToFileURL(join(webRoot, 'src/policies/github-write-client.js')).href);
+  const fixture = createRelayDeckTargetTreePublicationInputFixture();
+  const github = createGitHubWriteClient({
+    owner: 'Erwin-lark', repo: 'Proxy', token: 'fixture-token', fetchImpl: createFetch(),
+  });
+  const result = await github.commitTree({
+    version: fixture.version,
+    manifest: fixture.manifest,
+    files: fixture.files,
+    message: fixture.commitMessage,
+  });
+  assert.equal(result.version, 'v1.1');
+  assert.equal(result.releaseId, 'v1.1');
+  assert.equal(result.manifestHash, fixture.manifest.manifestHash);
+  assert.equal(result.commitSha, 'e'.repeat(64));
 });
