@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "settings": {
+    "mode": "rule",
+    "publicArtifact": "no-node-strategy",
+    "runtimeBinding": "relaydeck-private-provider"
+  },
+  "logicAliases": {
+    "proxy": "group-auto",
+    "direct": "builtin-direct"
+  },
+  "iconCatalogPath": "assets/common/icons/public-routing-groups.svg"
+}

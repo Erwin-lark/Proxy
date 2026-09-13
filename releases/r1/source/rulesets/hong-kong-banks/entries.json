@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "serviceId": "hong-kong-banks",
+  "entries": [
+    {"id": "hk-bank-hsbc", "type": "domain-suffix", "value": "hsbc.com.hk", "policyGroupId": "group-hk-finance", "order": 10, "presentIn": ["clash", "loon"]},
+    {"id": "hk-bank-za", "type": "domain-suffix", "value": "za.group", "policyGroupId": "group-hk-finance", "order": 20, "presentIn": ["clash", "loon"]},
+    {"id": "hk-bank-bochk", "type": "domain-suffix", "value": "bochk.com", "policyGroupId": "group-hk-finance", "order": 30, "presentIn": ["clash", "loon"]},
+    {"id": "hk-bank-citibank", "type": "domain-suffix", "value": "citibank.com.hk", "policyGroupId": "group-hk-finance", "order": 40, "presentIn": ["clash", "loon"]}
+  ]
+}

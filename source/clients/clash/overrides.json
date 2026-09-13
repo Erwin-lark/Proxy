@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "client": "clash",
+  "tagOverrides": {
+    "rule-hong-kong-banks": ["finance", "preferred-clash"],
+    "rule-ai-messaging-speed-test": ["ai", "preferred-clash"]
+  },
+  "policyBindings": {
+    "rule-hong-kong-banks": "group-hk-finance",
+    "rule-ai-messaging-speed-test": "group-global-tools"
+  },
+  "settings": {
+    "publicArtifact": "no-node-strategy"
+  }
+}

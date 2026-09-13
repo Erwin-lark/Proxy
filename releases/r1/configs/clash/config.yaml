@@ -1,0 +1,16 @@
+# Generated no-node public configuration. Private providers are bound by RelayDeck at runtime.
+mode: rule
+proxy-groups:
+  - name: group-global-tools
+    type: select
+    proxies: ["DIRECT", "group-auto"]
+  - name: group-hk-finance
+    type: select
+    proxies: ["group-auto", "DIRECT"]
+  - name: group-auto
+    type: url-test
+    proxies: ["DIRECT"]
+rules:
+  - RULE-SET,ai-messaging-speed-test,group-global-tools
+  - RULE-SET,hong-kong-banks,group-hk-finance
+  - MATCH,DIRECT

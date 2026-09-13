@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "serviceId": "ai-messaging-speed-test",
+  "entries": [
+    {"id": "ai-x", "type": "domain-suffix", "value": "x.ai", "policyGroupId": "group-global-tools", "order": 10, "presentIn": ["clash", "loon"]},
+    {"id": "ai-grok", "type": "domain-suffix", "value": "grok.com", "policyGroupId": "group-global-tools", "order": 20, "presentIn": ["clash", "loon"]},
+    {"id": "ai-signal", "type": "domain-suffix", "value": "signal.org", "policyGroupId": "group-global-tools", "order": 30, "presentIn": ["clash", "loon"]},
+    {"id": "ai-ookla", "type": "domain-suffix", "value": "ookla.com", "policyGroupId": "group-global-tools", "order": 40, "presentIn": ["clash", "loon"]}
+  ]
+}

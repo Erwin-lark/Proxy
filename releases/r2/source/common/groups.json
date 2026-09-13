@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "groups": [
+    {
+      "id": "group-hk-finance",
+      "displayName": "Hong Kong Finance",
+      "type": "select",
+      "members": ["group-auto", "builtin-direct"],
+      "presentIn": ["clash", "loon"]
+    },
+    {
+      "id": "group-global-tools",
+      "displayName": "Global Tools",
+      "type": "select",
+      "members": ["group-auto", "builtin-direct"],
+      "presentIn": ["clash", "loon"]
+    },
+    {
+      "id": "group-auto",
+      "displayName": "Automatic",
+      "type": "url-test",
+      "members": ["builtin-direct"],
+      "presentIn": ["clash", "loon"]
+    },
+    {
+      "id": "builtin-direct",
+      "displayName": "Direct",
+      "type": "builtin",
+      "members": [],
+      "presentIn": ["clash", "loon"]
+    }
+  ]
+}

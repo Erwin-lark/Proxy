@@ -1,0 +1,209 @@
+{
+  "manifestVersion": 1,
+  "releaseId": "r2",
+  "version": "r2",
+  "generatorVersion": "target-tree-0.1.0",
+  "createdAt": "2026-09-13T00:00:00.000Z",
+  "sourceHash": "598cab9d9ff39c3ac26fad60b2e28df4dd71c390ba58fe5748da63778a735c72",
+  "sourceManifestHash": "c4e38230a0eaf0c08290b4021db8e4167581cfc03c016514f0f7180ff95fc990",
+  "enabledTargets": [
+    "clash",
+    "loon"
+  ],
+  "services": [
+    "ai-messaging-speed-test",
+    "hong-kong-banks"
+  ],
+  "files": [
+    {
+      "path": "assets/catalog.json",
+      "sha256": "07ab8b89b3b4dacef59f8f51518197ecc4db279605a8b2df861f61ea1754f459",
+      "bytes": 363
+    },
+    {
+      "path": "assets/common/icons/public-routing-groups.svg",
+      "sha256": "010c7db2881338ac1cc1f50dd8665df2033df12f5341939297c0f8ab7b72b33d",
+      "bytes": 311
+    },
+    {
+      "path": "configs/clash/config.yaml",
+      "sha256": "771ea57ad7cf5d46334856d128cc139845f3b3ed32df3776a15975f8480fa65e",
+      "bytes": 476
+    },
+    {
+      "path": "configs/loon/profile.lcf",
+      "sha256": "1740b4bbe73cb1161ff61d19fa97e37e829d6ca51f3daec625908afbffe77de8",
+      "bytes": 375
+    },
+    {
+      "path": "rules/ai-messaging-speed-test/Clash.yaml",
+      "sha256": "fd0a2110067a0708d0a1906e7beddd8d1c483b8bf481882784b7d5ea64cf9c5e",
+      "bytes": 324
+    },
+    {
+      "path": "rules/ai-messaging-speed-test/Loon.lsr",
+      "sha256": "33f4aeaae6f65d6a6d0bc256b67cf1daba53706828ac8c5561c2f2482337036e",
+      "bytes": 291
+    },
+    {
+      "path": "rules/catalog.json",
+      "sha256": "3a4f30703a5171743d7841f3689bec87d74353e0973b8fbc2ecbb0cc013f160f",
+      "bytes": 3286
+    },
+    {
+      "path": "rules/hong-kong-banks/Clash.yaml",
+      "sha256": "f69ff953ff6cbd4a10f3570a07eb722090a5d3b1f9a54722b7828deb609c30ad",
+      "bytes": 269
+    },
+    {
+      "path": "rules/hong-kong-banks/Loon.lsr",
+      "sha256": "9fb9399923d41d7cd42a766b1b1e74b2131f67b36ac87c031b7fa927e51ba973",
+      "bytes": 241
+    },
+    {
+      "path": "rules/loon/index.yaml",
+      "sha256": "16cda1e76ebc3596c71be1cde0dc17ed491043f76525cbf316a417cdef373573",
+      "bytes": 150
+    },
+    {
+      "path": "rules/mihomo/index.yaml",
+      "sha256": "27e89f1448ba9d266888b3e60ed180c65460d2c76a10571166ae01785f11de24",
+      "bytes": 167
+    },
+    {
+      "path": "rules/quantumult-x/index.yaml",
+      "sha256": "0cc5c339b0d11c7a1bff6b11391d025d23aac0f196b6559bdd29beddb37bde52",
+      "bytes": 215
+    },
+    {
+      "path": "source/clients/clash/order.json",
+      "sha256": "1647828297f42e4e7e5fcda072f4eb2dc108b355d7d9476dfc7fd80752014b97",
+      "bytes": 443
+    },
+    {
+      "path": "source/clients/clash/overrides.json",
+      "sha256": "041662514b89220e880ddb3b9ee62556a91bde44db5af5f5c4a7bea62dde33ce",
+      "bytes": 387
+    },
+    {
+      "path": "source/clients/loon/adapter.yaml",
+      "sha256": "8606fc9a657961b8a8f1a012bbc6eeffecc7255abbec6896e7ead2eb53302b22",
+      "bytes": 191
+    },
+    {
+      "path": "source/clients/loon/order.json",
+      "sha256": "6cf092b4c41bbc5359388969566758e0d7c5c79afa2bf5cc451148c08760b84e",
+      "bytes": 442
+    },
+    {
+      "path": "source/clients/loon/overrides.json",
+      "sha256": "adde893109da7ab0a27528bf78179dc0d12d93024d47c2ea0db97c8efa9bdffa",
+      "bytes": 383
+    },
+    {
+      "path": "source/clients/mihomo/adapter.yaml",
+      "sha256": "3be1d20493bf579af2c0b4d51590bb98cd4c17a998d6c8d7c97b2a01a1a0a122",
+      "bytes": 208
+    },
+    {
+      "path": "source/clients/quantumult-x/adapter.yaml",
+      "sha256": "aa2af848120ac5c2dca76ae8c82bdda62fee0a92120a9bc46472a2326e11d9b6",
+      "bytes": 319
+    },
+    {
+      "path": "source/common/catalog.yaml",
+      "sha256": "48db5fbd7a41b156d9c6726d7875ed5c9ee310c1825b1d6293853087a2ad9ea7",
+      "bytes": 571
+    },
+    {
+      "path": "source/common/groups.json",
+      "sha256": "45e340e1708a52ed6082186d22ccbbb9b3e429f9337c1c250c6aabfc0b5cf19c",
+      "bytes": 768
+    },
+    {
+      "path": "source/common/order.json",
+      "sha256": "15c456d726e2fa6f1d5ee83b29fca2f7fad202ac5bd987df57a44b88a1044810",
+      "bytes": 422
+    },
+    {
+      "path": "source/common/rules.json",
+      "sha256": "7b970e944037a4b311140ba345ebf4bdf961d4c1a87d8ce655583b4dfca2dbc0",
+      "bytes": 716
+    },
+    {
+      "path": "source/common/settings.json",
+      "sha256": "d49ff774eb41ee281f5f3bbccb51aa0c26eb43ee0eac1bcc614333e2c36563e4",
+      "bytes": 312
+    },
+    {
+      "path": "source/manifest.json",
+      "sha256": "c4e38230a0eaf0c08290b4021db8e4167581cfc03c016514f0f7180ff95fc990",
+      "bytes": 4068
+    },
+    {
+      "path": "source/rulesets/ai-messaging-speed-test/definition.json",
+      "sha256": "d41fd53d74e1ee416d5dd42400937ff6be4cc4cf618cecb640a333f004086cfc",
+      "bytes": 500
+    },
+    {
+      "path": "source/rulesets/ai-messaging-speed-test/entries.json",
+      "sha256": "2b5fe9ec71daca2b909a23a36e8c8a598fa3a33ea1e0eb945e7d4a28bb8b882b",
+      "bytes": 697
+    },
+    {
+      "path": "source/rulesets/ai-messaging-speed-test/patches.json",
+      "sha256": "044e5a6766bcb09ac5cae62fab0b4417a7445c4d3b72b6b505ed98bebdfb0161",
+      "bytes": 654
+    },
+    {
+      "path": "source/rulesets/ai-messaging-speed-test/upstream-lock.json",
+      "sha256": "fe4448ae2c590e64b7bbfcd95e280835538303fde119126e49914ccdd82e4d63",
+      "bytes": 406
+    },
+    {
+      "path": "source/rulesets/hong-kong-banks/definition.json",
+      "sha256": "dc877ccc4b2e0a9ecb185e7f463f4c59d556b22ab5d20a488383e30348769a27",
+      "bytes": 453
+    },
+    {
+      "path": "source/rulesets/hong-kong-banks/entries.json",
+      "sha256": "d39c957fe9333e2e9a62e269607b4d08869737852d4c3430c0d08a2538cfae26",
+      "bytes": 716
+    },
+    {
+      "path": "source/rulesets/hong-kong-banks/patches.json",
+      "sha256": "e0a035bd9a8d4722203e8b3accf8ee0cd6838479acd4821e3a21ce7cd211e66f",
+      "bytes": 429
+    },
+    {
+      "path": "source/rulesets/hong-kong-banks/upstream-lock.json",
+      "sha256": "b59da83bf85c61b807b62b376970cf05ec68e6c9445193b9b2703c6219d53816",
+      "bytes": 377
+    }
+  ],
+  "bindings": {
+    "sourceManifest": "source/manifest.json",
+    "rulesCatalog": "rules/catalog.json",
+    "configs": {
+      "clash": "configs/clash/config.yaml",
+      "loon": "configs/loon/profile.lcf"
+    }
+  },
+  "dependencies": [
+    {
+      "serviceId": "ai-messaging-speed-test",
+      "upstreamLock": "source/rulesets/ai-messaging-speed-test/upstream-lock.json",
+      "entriesHash": "7b855ca54a9d45c21a1e4412c26ccacdb336857ce3b4ed4ef9fd80c62c52ffea",
+      "sourceUrl": "https://raw.githubusercontent.com/Erwin-lark/Proxy/main/clash-rules.yaml",
+      "selector": "AI, messaging and speed test domains"
+    },
+    {
+      "serviceId": "hong-kong-banks",
+      "upstreamLock": "source/rulesets/hong-kong-banks/upstream-lock.json",
+      "entriesHash": "ba3e2086448092135ce0ce61eafd77d767d024a94104a0f4a48e2f138c1771a8",
+      "sourceUrl": "https://raw.githubusercontent.com/Erwin-lark/Proxy/main/clash-rules.yaml",
+      "selector": "Hong Kong banks"
+    }
+  ],
+  "manifestHash": "0bbf3f566ddab8ef2b07223798d4f3eeba92d38e31315153d1a55b70ada5eeb5"
+}

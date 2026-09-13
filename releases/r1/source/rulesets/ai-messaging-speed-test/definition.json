@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "serviceId": "ai-messaging-speed-test",
+  "displayName": "AI, Messaging and Speed Test",
+  "category": "ai-messaging-speed-test",
+  "description": "Public AI, messaging and speed-test domains mapped to the Global Tools strategy group.",
+  "supportedClients": ["clash", "loon"],
+  "format": "domain-suffix",
+  "license": "Internal-authored selection; verify upstream terms before redistribution",
+  "behavior": "domain suffix entries bind to the Global Tools policy group"
+}

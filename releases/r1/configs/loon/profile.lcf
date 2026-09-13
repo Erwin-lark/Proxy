@@ -1,0 +1,13 @@
+# Generated no-node public configuration. Private providers are bound by RelayDeck at runtime.
+[General]
+bypass-system = true
+
+[Proxy Group]
+group-hk-finance = select,DIRECT,group-auto
+group-global-tools = select,group-auto,DIRECT
+group-auto = url-test,DIRECT
+
+[Rule]
+RULE-SET,hong-kong-banks,group-hk-finance
+RULE-SET,ai-messaging-speed-test,group-global-tools
+FINAL,DIRECT

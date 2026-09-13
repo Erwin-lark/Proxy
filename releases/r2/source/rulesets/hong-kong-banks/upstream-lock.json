@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "serviceId": "hong-kong-banks",
+  "sourceUrl": "https://raw.githubusercontent.com/Erwin-lark/Proxy/main/clash-rules.yaml",
+  "sourcePath": "clash-rules.yaml",
+  "sourceSelector": "Hong Kong banks",
+  "lockedAt": "2026-09-13T00:00:00.000Z",
+  "algorithm": "sha256",
+  "entriesHash": "ba3e2086448092135ce0ce61eafd77d767d024a94104a0f4a48e2f138c1771a8"
+}
