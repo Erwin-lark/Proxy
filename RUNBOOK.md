@@ -170,7 +170,25 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 `tools/github-release-adapter.mjs` 的 `preparePublication()` 输出完整的 `{version, releaseId, manifest, files, commitMessage}`，其中 `files` 包含根目录兼容资产、受管元数据和 `releases/<releaseId>/manifest.json`；每个文件同时提供 `contentHash` 和 `byteLength`，可直接交给 Web `github-write-client.commitTree()`，以便入口校验正文完整性。manifest 文件使用单行 JSON，与 RelayDeck `github-write-client.safeFiles` 的字节合同一致。该模块只准备输入并校验回读身份；reserve、commit/tree、分支更新、tag、Release、缓存和活动切换仍由 RelayDeck 的可恢复任务流水线负责。
 
-`preparePublication({ releaseId: 'v1.0' })` 继续提供旧兼容输入。目标树正式输入使用 `preparePublication({ releaseId: 'v1.1' })`（实现位于 `tools/target-publication.mjs`）：它绑定当前 `targetReleaseId: r2`，把根级 `source/manifest.json`、`source/common/`、`source/rulesets/`、`rules/catalog.json`、按服务规则、`assets/` 以及完整 `releases/r1`、`releases/r2` 快照纳入同一 manifest；`manifest.files` 有 96 项，提交 `files` 另包含 `releases/v1.1/manifest.json` 本身。`npm run target-publication` 只在本地生成该确定性 manifest，不调用 GitHub。目标树 manifest 的 `sourceHash` 与 r2 source manifest 一致，`snapshots[]` 记录 r1/r2 manifest 哈希，Web 应以这些字段和逐文件哈希作为只读门禁，不应把旧 v1.0 清单当作目标树清单。
+`preparePublication({ releaseId: 'v1.0' })` 继续提供旧兼容输入。目标树演示输入可使用 `preparePublication({ releaseId: 'v1.1' })`，它读取当前仓库树并绑定 `targetReleaseId: r2`；这条兼容路径用于固定 fixture，不是网站编辑源的唯一入口。
+
+网站接入目标树时应把同一份已脱敏源模型显式传给 `preparePublication()`，并同时传入不可变快照源：
+
+```js
+const prepared = preparePublication({
+  releaseId: 'v1.2',
+  source: currentSourceModel,
+  snapshots: [
+    { releaseId: 'r1', source: previousSourceModel },
+    { releaseId: 'r2', source: currentSourceModel },
+  ],
+  targetReleaseId: 'r2',
+});
+```
+
+`source` 与 `snapshots[].source` 使用 `loadTargetModel()` 返回的公开源模型形状：`common`、`clients.clash/loon` 和至少两个 `services`，不包含节点、凭据或私有来源。实现会在隔离暂存目录中写入 source，重新生成 `rules/`、`assets/`、configs 和每个 release 快照，再返回完整 `{version, releaseId, targetReleaseId, manifest, files, commitMessage}`；不会修改调用方对象或仓库源文件。`targetReleaseId` 必须对应传入快照，且该快照的 `sourceHash` 必须等于当前 `source`；`version === releaseId` 是正式发布身份，`targetReleaseId` 只是可追溯的源快照身份，不能用可变的演示目录代替正式版本。输出仍把 `source/manifest.json`、`source/common/`、`source/rulesets/`、`rules/catalog.json`、按服务规则、`assets/` 和所有指定快照纳入同一 manifest，提交 `files` 另包含 `releases/<version>/manifest.json`。
+
+每次调用会重新计算 `sourceHash` 和 `manifestHash`；不同源模型必须产生不同的 `sourceHash`。RelayDeck 应把返回的完整函数结果交给 `github-write-client.commitTree()`，并以 `manifest.files`、逐文件 `contentHash`/`byteLength`、`version`、`releaseId`、`targetReleaseId` 和快照哈希作为只读门禁。`npm run target-publication` 仍只读取仓库当前 fixture；它不是携带网站编辑源的 API，也不调用 GitHub。目标树 manifest 的 `snapshots[]` 记录每个快照的 `releaseId`、`sourceHash` 和 `manifestHash`，不能把 CLI 摘要当作完整输入。
 
 Proxy 静态资产清单与 Web 策略发布清单是两种不同的组件合同：Proxy manifest 的 `files[]` 描述公开仓库资产；Web loader 的 manifest 使用 `revisionId`、`artifacts[]` 和 `dependencies[]` 描述一次策略生成。两者共享 `version`、`releaseId`、`manifestHash` 及 `{path, content, contentHash}` 文件输入约束；Proxy 旧 v1.0 适配器要求静态 release 的 `releaseId === version`，目标 v1.1 输入也按 `releases/v1.1/manifest.json` 组织并把 r2 作为目标快照。不能把 CLI 摘要当作完整输入，也不能把 Proxy 的静态清单冒充 Web 的策略修订清单。网站方接入 Proxy 时应调用 `preparePublication()` 的函数返回值，并继续由现有 pipeline 执行版本预读、提交、Tag/Release、回读、缓存和活动切换。固定完整输入 fixture 位于 `tests/fixtures/relaydeck-publication-input.mjs`；目标目录只读门禁应检查 Proxy 的 `targetPublication`/`snapshots` 绑定，不应把生成规则文件当成第二编辑源。
 

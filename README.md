@@ -14,7 +14,7 @@ RelayDeck 是节点订阅与完整远程配置的唯一生产生成和发布源�
 
 ## 维护与 RelayDeck 接入
 
-请阅读[运行手册](RUNBOOK.md)，其中定义了客户端目录分层、规则目录、版本与哈希校验、RelayDeck 接入门禁、发布和回滚流程。`npm run validate-target-tree` 可校验目标 source、补丁、双端输出和 R1/R2 快照；`npm run prepare-publication -- --release v1.1` 可输出包含目标树完整输入但不含真实网络写入的发布摘要；v1.0 兼容输入仍可用；`npm run validate` 可在本地执行全仓库清单回读和公开信息扫描；`npm run remote-readback` 只读核验已存在的公开 GitHub 版本，不执行发布。
+请阅读[运行手册](RUNBOOK.md)，其中定义了客户端目录分层、规则目录、版本与哈希校验、RelayDeck 接入门禁、发布和回滚流程。`npm run validate-target-tree` 可校验目标 source、补丁、双端输出和 R1/R2 快照；`preparePublication({ releaseId, source, snapshots, targetReleaseId })` 可从网站调用方源模型生成完整目标树发布输入，`npm run prepare-publication -- --release v1.1` 仍只输出仓库 fixture 的发布摘要；v1.0 兼容输入仍可用；`npm run validate` 可在本地执行全仓库清单回读和公开信息扫描；`npm run remote-readback` 只读核验已存在的公开 GitHub 版本，不执行发布。
 
 ## 安全边界
 

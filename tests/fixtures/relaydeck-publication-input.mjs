@@ -26,3 +26,27 @@ export function createRelayDeckTargetTreePublicationInputFixture() {
     commitMessage: prepared.commitMessage,
   };
 }
+
+// 调用方源模型的真实适配入口；不会把生成目录当作第二编辑源。
+export function createRelayDeckTargetTreePublicationInputFromSource({
+  releaseId = 'v1.2',
+  source,
+  snapshots,
+  targetReleaseId = 'r2',
+}) {
+  const prepared = preparePublication({
+    releaseId,
+    source,
+    snapshots,
+    targetReleaseId,
+    createdAt: FIXTURE_CREATED_AT,
+  });
+  return {
+    version: prepared.version,
+    releaseId: prepared.releaseId,
+    targetReleaseId: prepared.targetReleaseId,
+    manifest: structuredClone(prepared.manifest),
+    files: prepared.files.map(file => ({ ...file })),
+    commitMessage: prepared.commitMessage,
+  };
+}

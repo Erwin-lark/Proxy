@@ -7,6 +7,8 @@ import { createGitHubReadbackClient } from '../tools/github-readback.mjs';
 import { summarizePublication } from '../tools/prepare-publication.mjs';
 import { ROOT } from '../tools/proxy-manifest.mjs';
 import { readbackRelease } from '../tools/readback-release.mjs';
+import { loadTargetModel } from '../tools/target-tree.mjs';
+import { prepareTargetPublication } from '../tools/target-publication.mjs';
 import { createRelayDeckPublicationInputFixture, createRelayDeckTargetTreePublicationInputFixture } from './fixtures/relaydeck-publication-input.mjs';
 
 test('v1.0 manifest is deterministic and reads back every managed asset', () => {
@@ -92,6 +94,83 @@ test('target-tree publication input includes the root tree and complete R1/R2 sn
   assert.equal(fixture.manifest.files.length, 96);
   assert.equal(fixture.files.every(file => file.byteLength === Buffer.byteLength(file.content)), true);
   assert.equal(fixture.files.every(file => /^[a-f0-9]{64}$/.test(file.contentHash)), true);
+});
+
+test('source-driven target publication materializes caller input and preserves the old tree', () => {
+  const sourceBefore = loadTargetModel(ROOT);
+  const oldPublication = preparePublication({ releaseId: 'v1.0' });
+  const r1Source = structuredClone(sourceBefore);
+  const r2Source = structuredClone(sourceBefore);
+  const editedRule = r2Source.common.rules.rules.find(rule => rule.id === 'rule-ai-messaging-speed-test');
+  editedRule.tags = [...editedRule.tags, 'draft-edited'];
+  r2Source.clients.clash.overrides.tagOverrides[editedRule.id] = [...editedRule.tags];
+  r2Source.clients.clash.order.groupOrder = [
+    'group-global-tools', 'group-hk-finance', 'group-auto', 'builtin-direct',
+  ];
+
+  const prepared = preparePublication({
+    releaseId: 'v1.2',
+    source: r2Source,
+    snapshots: [
+      { releaseId: 'r1', source: r1Source },
+      { releaseId: 'r2', source: r2Source },
+    ],
+    targetReleaseId: 'r2',
+  });
+  const sourceManifest = JSON.parse(prepared.files.find(file => file.path === 'source/manifest.json').content);
+  const clashRules = prepared.files.find(file => file.path === 'rules/ai-messaging-speed-test/Clash.yaml').content;
+  const r2Manifest = JSON.parse(prepared.files.find(file => file.path === 'releases/r2/manifest.json').content);
+
+  assert.equal(prepared.version, 'v1.2');
+  assert.equal(prepared.releaseId, 'v1.2');
+  assert.equal(prepared.targetReleaseId, 'r2');
+  assert.equal(prepared.manifest.targetReleaseId, 'r2');
+  assert.equal(prepared.manifest.sourceHash, sourceManifest.sourceHash);
+  assert.equal(prepared.manifest.sourceHash, r2Manifest.sourceHash);
+  assert.match(clashRules, /draft-edited/);
+  assert.equal(prepared.files.length, prepared.manifest.files.length + 1);
+  assert.deepEqual(loadTargetModel(ROOT), sourceBefore);
+  assert.deepEqual(preparePublication({ releaseId: 'v1.0' }).manifest, oldPublication.manifest);
+  assert.deepEqual(preparePublication({ releaseId: 'v1.0' }).files, oldPublication.files);
+});
+
+test('two source inputs produce distinct hashes and identity errors are rejected', () => {
+  const base = loadTargetModel(ROOT);
+  const first = structuredClone(base);
+  const second = structuredClone(base);
+  second.common.settings.settings.publicArtifact = 'no-node-strategy-edited';
+  second.common.rules.rules.find(rule => rule.id === 'rule-hong-kong-banks').tags = ['finance', 'reviewed'];
+  const snapshots = source => [
+    { releaseId: 'r1', source: first },
+    { releaseId: 'r2', source },
+  ];
+  const one = preparePublication({ releaseId: 'v1.2', source: first, snapshots: snapshots(first) });
+  const two = preparePublication({ releaseId: 'v1.3', source: second, snapshots: snapshots(second) });
+  assert.notEqual(one.manifest.sourceHash, two.manifest.sourceHash);
+  assert.notEqual(one.manifest.manifestHash, two.manifest.manifestHash);
+  assert.equal(one.manifest.snapshots.find(snapshot => snapshot.releaseId === 'r2').sourceHash, one.manifest.sourceHash);
+  assert.equal(two.manifest.snapshots.find(snapshot => snapshot.releaseId === 'r2').sourceHash, two.manifest.sourceHash);
+
+  assert.throws(
+    () => preparePublication({
+      releaseId: 'v1.2', source: second, snapshots: snapshots(first), targetReleaseId: 'r2',
+    }),
+    /does not match the publication source/,
+  );
+  assert.throws(
+    () => preparePublication({
+      releaseId: 'v1.2', source: first, snapshots: snapshots(first), targetReleaseId: 'r3',
+    }),
+    /must identify one supplied snapshot/,
+  );
+  assert.throws(
+    () => prepareTargetPublication({
+      releaseId: 'v1.2', source: first, snapshots: snapshots(first), targetReleaseId: 'r2',
+      // 直接调用底层函数时，version 与 releaseId 也必须保持同一发布身份。
+      version: 'v1.3',
+    }),
+    /target publication version and releaseId must match/,
+  );
 });
 
 function response(status, payload) {

@@ -222,6 +222,35 @@ function validateSourceModel(model) {
   return model;
 }
 
+/**
+ * 将调用方提供的、已脱敏的目标树源模型写入一个隔离目录。
+ *
+ * 该函数只写 source/；source/manifest.json、rules/、assets/ 和 release
+ * 快照仍由 buildTargetRelease 生成，避免调用方把生成物当成第二编辑源。
+ */
+export function materializeTargetSource(root, source) {
+  if (!source || typeof source !== 'object' || Array.isArray(source)) {
+    throw new Error('target source must be an object');
+  }
+  const model = validateSourceModel(structuredClone(source));
+  writeJson(root, 'source/common/groups.json', model.common.groups);
+  writeJson(root, 'source/common/rules.json', model.common.rules);
+  writeJson(root, 'source/common/settings.json', model.common.settings);
+  writeJson(root, 'source/common/order.json', model.common.order);
+  for (const client of CLIENTS) {
+    writeJson(root, `${SOURCE_CLIENT_PATHS[client]}/order.json`, model.clients[client].order);
+    writeJson(root, `${SOURCE_CLIENT_PATHS[client]}/overrides.json`, model.clients[client].overrides);
+  }
+  for (const service of model.services) {
+    const base = `source/rulesets/${service.serviceId}`;
+    writeJson(root, `${base}/definition.json`, service.definition);
+    writeJson(root, `${base}/entries.json`, service.entries);
+    writeJson(root, `${base}/patches.json`, service.patches);
+    writeJson(root, `${base}/upstream-lock.json`, service.upstreamLock);
+  }
+  return model;
+}
+
 function buildSourceManifest(root, model) {
   const paths = walkFiles(join(root, 'source')).filter((path) => path !== 'manifest.json').map((path) => `source/${path}`);
   const files = fileInventory(root, paths);

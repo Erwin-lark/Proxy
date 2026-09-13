@@ -19,8 +19,22 @@ function sha256(value) {
  * 本模块不读取凭据、不执行网络请求、不创建 tag/Release；网络副作用仍由 RelayDeck
  * 的独立适配器负责，并且必须在提交、tag、Release 后按同一 releaseId 回读。
  */
-export function preparePublication({ root = ROOT, releaseId = 'v1.0', createdAt } = {}) {
-  if (releaseId === 'v1.1') return prepareTargetPublication({ root, version: releaseId, ...(createdAt ? { createdAt } : {}) });
+export function preparePublication({ root = ROOT, releaseId = 'v1.0', createdAt, source, snapshots, targetReleaseId } = {}) {
+  const targetPublicationRequested = releaseId === 'v1.1'
+    || source !== undefined
+    || snapshots !== undefined
+    || targetReleaseId !== undefined;
+  if (targetPublicationRequested) {
+    return prepareTargetPublication({
+      root,
+      version: releaseId,
+      releaseId,
+      ...(createdAt ? { createdAt } : {}),
+      ...(source !== undefined ? { source } : {}),
+      ...(snapshots !== undefined ? { snapshots } : {}),
+      ...(targetReleaseId !== undefined ? { targetReleaseId } : {}),
+    });
+  }
   const manifest = buildManifest({ root, releaseId, ...(createdAt ? { createdAt } : {}) });
   const files = manifest.files.map(entry => ({
     path: entry.path,
