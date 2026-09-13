@@ -1,0 +1,7 @@
+schema: 1
+client: loon
+source: source/clients/loon/adapter.yaml
+publicAssets:
+  - id: rules.public.loon
+    path: loon-rules.lsr
+    format: loon-lsr

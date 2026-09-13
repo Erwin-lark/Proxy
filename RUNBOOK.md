@@ -33,49 +33,49 @@ Proxy/
   RUNBOOK.md
   SECURITY.md
   CHANGELOG.md
+  package.json
+  source/
+    common/
+      catalog.yaml
+    clients/
+      loon/adapter.yaml
+      mihomo/adapter.yaml
+      quantumult-x/adapter.yaml
+  rules/
+    loon/index.yaml
+    mihomo/index.yaml
+    quantumult-x/index.yaml
   manifests/
     catalog.yaml
-    releases/
+    catalog.json
   policies/
     catalog.yaml
-  rulesets/
-    source/
-    loon/
-    mihomo/
-    quantumult-x/
-  scripts/
-    loon/
-    quantumult-x/
-    mihomo/
-  plugins/
-    loon/
-    quantumult-x/
-  icons/
-    shared/
-    index.yaml
-  config-templates/
-    shared/
-    loon/
-    mihomo/
-    quantumult-x/
-  schemas/
-  fixtures/
+  releases/
+    v1.0/manifest.json
+  tools/
+    proxy-manifest.mjs
+    readback-release.mjs
+    github-release-adapter.mjs
+    validate-proxy.mjs
   tests/
-  docs/
+  # 后续按需加入：assets/scripts、assets/plugins、assets/icons、assets/config-templates
 ```
 
 ### 目录规则
 
-- `source/`：仅保存跨客户端可复用的中立规则来源；不能直接作为客户端订阅链接。
-- `loon/`、`mihomo/`、`quantumult-x/`：只保存对应客户端的最终静态产物，禁止混用语法。
+- `source/common/`：仅保存跨客户端可复用的中立规则来源和业务分类；不能直接作为客户端订阅链接。
+- `source/clients/`：保存客户端适配器元数据、语法、输出路径和启用状态；不能写入节点或私人 URL。
+- `rules/<client>/`：保存客户端规则索引。根目录三份旧 Raw 文件暂时保留作为兼容输出，不能再另起一套未登记的分端内容。
+- `releases/<releaseId>/`：保存不可变版本 manifest；版本号使用 `vMAJOR.MINOR`，manifest 不对自身计算哈希。
+- `assets/`：后续按需加入公开脚本、插件、图标和脱敏配置模板，分别登记到清单后再发布。
 - `policies/`：维护稳定策略 ID、显示名、默认行为和图标绑定。内部引用使用 ID，例如 `finance.hk-bank`，不依赖可变的展示名称。
 - `config-templates/`：仅保存脱敏模板、覆写片段和映射，不保存最终完整配置。
 - `fixtures/`：只存脱敏输入和预期输出，用于验证生成器，不作为生产资产。
-- `manifests/releases/`：保存发布摘要与回滚指针，不保存真实令牌或客户端完整配置。
+- `tools/`：只做本地清单生成、回读、敏感信息校验和 RelayDeck 发布输入准备；不持有 GitHub 凭据、不直接发布。
 
 ## 4. 资产清单契约
 
-每个可被 RelayDeck 使用或公开分发的资产都必须登记在 `manifests/catalog.yaml`。最小字段如下：
+每个可被 RelayDeck 使用或公开分发的资产都必须登记在 `manifests/catalog.yaml`；`manifests/catalog.json` 是供本地工具读取的同内容机器清单。最小字段如下：
 
 ```yaml
 schema: 1
@@ -83,7 +83,7 @@ assets:
   - id: rules.finance.hk-bank.loon
     type: ruleset
     client: loon
-    path: rulesets/loon/finance-hk-bank.lsr
+    path: rules/loon/finance-hk-bank.lsr
     version: 1.0.0
     public: true
     sha256: <published-file-sha256>
@@ -152,4 +152,4 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 ## 10. 当前状态
 
-目前仓库仅包含三端的基础远端规则文件。上述目录、清单、校验和 RelayDeck 同步契约是后续建设目标；在建立对应资产前，不应假定目录或自动化已经存在。
+当前仓库保留三端基础远端规则文件，并已建立第一版 `source/`、`rules/`、`releases/v1.0/` 与本地校验工具。`npm run check` 验证本地适配器和版本回读，`npm run validate` 验证清单哈希、路径安全和敏感信息边界。当前工具只准备 RelayDeck 的发布输入，不连接 GitHub、不创建 tag/Release，也不代表 Proxy 已正式发布到生产。

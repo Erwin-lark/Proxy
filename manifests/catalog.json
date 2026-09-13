@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "repository": {
+    "id": "proxy",
+    "visibility": "public",
+    "distribution": "static-assets-only"
+  },
+  "assets": [
+    {
+      "id": "rules.public.clash",
+      "type": "ruleset",
+      "client": "mihomo",
+      "path": "clash-rules.yaml",
+      "version": "1.0.0",
+      "public": true,
+      "policy": "public-routing-groups",
+      "status": "active",
+      "purpose": "public client rule source"
+    },
+    {
+      "id": "rules.public.loon",
+      "type": "ruleset",
+      "client": "loon",
+      "path": "loon-rules.lsr",
+      "version": "1.0.0",
+      "public": true,
+      "policy": "public-routing-groups",
+      "status": "active",
+      "purpose": "public client rule source"
+    },
+    {
+      "id": "rules.public.quantumult-x",
+      "type": "ruleset",
+      "client": "quantumult-x",
+      "path": "quantumult-x-rules.list",
+      "version": "1.0.0",
+      "public": true,
+      "policy": "public-routing-groups",
+      "status": "reference-only",
+      "purpose": "public compatibility asset; not an enabled RelayDeck target"
+    }
+  ]
+}
