@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 import { preparePublication, verifyPublicationReadback } from '../tools/github-release-adapter.mjs';
 import { createGitHubReadbackClient } from '../tools/github-readback.mjs';
+import { summarizePublication } from '../tools/prepare-publication.mjs';
+import { ROOT } from '../tools/proxy-manifest.mjs';
 import { readbackRelease } from '../tools/readback-release.mjs';
 
 test('v1.0 manifest is deterministic and reads back every managed asset', () => {
@@ -25,6 +29,29 @@ test('publication adapter prepares a safe RelayDeck-compatible tree without netw
   assert.throws(() => verifyPublicationReadback(prepared, {
     version: 'v1.0', releaseId: 'v1.0', manifestHash: 'b'.repeat(64), commitSha: 'a'.repeat(40),
   }), error => error.code === 'proxy_release_readback_mismatch');
+});
+
+test('prepare-publication emits a digest-only summary and performs no network write', () => {
+  const prepared = preparePublication({ releaseId: 'v1.0' });
+  const summary = summarizePublication(prepared);
+  assert.equal(summary.ok, true);
+  assert.equal(summary.mode, 'prepare-only');
+  assert.equal(summary.networkWrites, false);
+  assert.equal(summary.commitFileCount, prepared.files.length);
+  assert.equal(summary.managedFileCount, prepared.manifest.files.length);
+  assert.equal(summary.files.some(file => Object.hasOwn(file, 'content')), false);
+  assert.equal(summary.files.at(-1).path, 'releases/v1.0/manifest.json');
+
+  const cli = fileURLToPath(new URL('../tools/prepare-publication.mjs', import.meta.url));
+  const result = spawnSync(process.execPath, [cli, '--release', 'v1.0'], {
+    cwd: ROOT,
+    encoding: 'utf8',
+  });
+  assert.equal(result.status, 0, result.stderr);
+  const cliSummary = JSON.parse(result.stdout);
+  assert.equal(cliSummary.manifestHash, summary.manifestHash);
+  assert.equal(cliSummary.files.length, prepared.files.length);
+  assert.equal(cliSummary.files.some(file => Object.hasOwn(file, 'content')), false);
 });
 
 function response(status, payload) {

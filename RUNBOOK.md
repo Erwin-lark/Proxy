@@ -57,6 +57,7 @@ Proxy/
     readback-release.mjs
     github-release-adapter.mjs
     github-readback.mjs
+    prepare-publication.mjs
     validate-proxy.mjs
   tests/
   # 后续按需加入：assets/scripts、assets/plugins、assets/icons、assets/config-templates
@@ -136,6 +137,8 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 本地最低检查为 `npm run check`、`npm run validate` 和 `npm run readback -- --release v1.0`。远端版本存在时，可运行 `npm run remote-readback -- --owner Erwin-lark --repo Proxy --version v1.0` 做只读回读；它按 tag、commit、Release、manifest 和 manifest 中的每个文件逐项校验，不带 GitHub 凭据，不执行任何写操作。远端没有该 tag 时返回安全的空结果，不能把它解释为发布成功。
 
+在提交给 RelayDeck 前，可运行 `npm run prepare-publication -- --release v1.0` 查看待发布摘要。输出只包含路径、字节数、SHA-256、目标客户端和用途，不包含资产正文；`networkWrites: false` 表示该命令不会调用 GitHub、不会更新分支、不会创建 Tag/Release。
+
 ## 8. 版本、发布与回滚
 
 - `main` 代表当前可用的公开静态资产，不代表 RelayDeck 的活动生产版本。
@@ -159,4 +162,4 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 ## 10. 当前状态
 
-当前仓库保留三端基础远端规则文件，并已建立第一版 `source/`、`rules/`、`releases/v1.0/` 与本地校验工具。`npm run check` 验证本地适配器和 mock 远端回读，`npm run validate` 验证清单哈希、路径安全和敏感信息边界；`npm run remote-readback` 只读真实公开仓库，远端没有对应版本时安全返回空结果。当前工具只准备 RelayDeck 的发布输入，不创建 tag/Release，也不代表 Proxy 已正式发布到生产。
+当前仓库保留三端基础远端规则文件，并已建立第一版 `source/`、`rules/`、`releases/v1.0/` 与本地校验工具。`npm run check` 验证本地适配器、发布摘要和 mock 远端回读，`npm run validate` 验证清单哈希、路径安全和敏感信息边界；`npm run prepare-publication` 只输出 RelayDeck 发布前摘要；`npm run remote-readback` 只读真实公开仓库，远端没有对应版本时安全返回空结果。当前工具只准备 RelayDeck 的发布输入，不创建 tag/Release，也不代表 Proxy 已正式发布到生产。
