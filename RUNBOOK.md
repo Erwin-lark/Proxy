@@ -10,7 +10,7 @@ RelayDeck 是唯一的生产控制面，负责保存敏感来源、生成完整�
 Proxy（公开静态资产） → RelayDeck（生成与发布） → 客户端固定链接
 ```
 
-GitHub Raw 只可直接分发明确标记为公开静态资产的文件。节点订阅、完整远程配置、令牌与任何按设备或活动版本动态生成的内容必须由 RelayDeck 分发。
+GitHub Raw 只可直接分发明确标记为公开静态资产的文件。含私人节点、令牌、凭据、设备绑定或活动授权的响应必须由 RelayDeck 分发；无节点、无私人数据、可公开复用的客户端策略产物和配置工件可以作为 Proxy 的版本化静态资产保存。判断边界是数据是否敏感、是否需要鉴权和动态绑定，而不是文件是否“完整”。
 
 ## 2. 安全红线
 
@@ -19,7 +19,7 @@ GitHub Raw 只可直接分发明确标记为公开静态资产的文件。节点
 - 节点、分享链接、订阅 URL、面板地址或真实私密 URL
 - 令牌、密码、API Key、密钥、证书、Cookie、请求头
 - VPS IP、个人服务域名、设备标识或用户资料
-- 包含上述内容的完整 Loon、Mihomo 或 Quantumult X 配置
+- 包含上述任何敏感内容的 Loon、Mihomo 或 Quantumult X 配置或策略产物
 
 所有新资产先在本地脱敏、校验，再提交。发现敏感信息时，应立即停止发布并轮换已暴露的凭据；删除文件不足以消除 Git 历史风险。
 
@@ -60,6 +60,7 @@ Proxy/
     prepare-publication.mjs
     validate-proxy.mjs
   tests/
+    fixtures/relaydeck-publication-input.mjs
   # 后续按需加入：assets/scripts、assets/plugins、assets/icons、assets/config-templates
 ```
 
@@ -139,6 +140,8 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 在提交给 RelayDeck 前，可运行 `npm run prepare-publication -- --release v1.0` 查看待发布摘要。输出只包含路径、字节数、SHA-256、目标客户端和用途，不包含资产正文；`networkWrites: false` 表示该命令不会调用 GitHub、不会更新分支、不会创建 Tag/Release。
 
+需要做跨仓库合同验收时，在独立的 Web worktree 上设置 `RELAYDECK_WEB_ROOT`，运行 `RELAYDECK_WEB_ROOT="<Web-worktree>" node --test tests/relaydeck-github-contract.test.mjs`。该测试消费 `tests/fixtures/relaydeck-publication-input.mjs` 的完整函数返回值，覆盖成功提交、正文篡改、重复路径和版本冲突；未设置 Web 路径时，普通 `npm run check` 会安全跳过这两项交叉测试。
+
 ## 8. 版本、发布与回滚
 
 - `main` 代表当前可用的公开静态资产，不代表 RelayDeck 的活动生产版本。
@@ -148,7 +151,9 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 ### RelayDeck 发布输入合同
 
-`tools/github-release-adapter.mjs` 的 `preparePublication()` 输出 `{version, releaseId, manifest, files, commitMessage}`，其中 `files` 包含根目录兼容资产、受管元数据和 `releases/<releaseId>/manifest.json`。manifest 文件使用单行 JSON，与 RelayDeck `github-write-client.safeFiles` 的字节合同一致。该模块只准备输入并校验回读身份；reserve、commit/tree、分支更新、tag、Release、缓存和活动切换仍由 RelayDeck 的可恢复任务流水线负责。
+`tools/github-release-adapter.mjs` 的 `preparePublication()` 输出完整的 `{version, releaseId, manifest, files, commitMessage}`，其中 `files` 包含根目录兼容资产、受管元数据和 `releases/<releaseId>/manifest.json`；每个文件同时提供 `contentHash` 和 `byteLength`，可直接交给 Web `github-write-client.commitTree()`，以便入口校验正文完整性。manifest 文件使用单行 JSON，与 RelayDeck `github-write-client.safeFiles` 的字节合同一致。该模块只准备输入并校验回读身份；reserve、commit/tree、分支更新、tag、Release、缓存和活动切换仍由 RelayDeck 的可恢复任务流水线负责。
+
+Proxy 静态资产清单与 Web 策略发布清单是两种不同的组件合同：Proxy manifest 的 `files[]` 描述公开仓库资产；Web loader 的 manifest 使用 `revisionId`、`artifacts[]` 和 `dependencies[]` 描述一次策略生成。两者共享 `version`、`releaseId`、`manifestHash` 及 `{path, content, contentHash}` 文件输入约束；Proxy 适配器当前要求静态 release 的 `releaseId === version`，并按 `releases/<version>/manifest.json` 组织 manifest。不能把 CLI 摘要当作完整输入，也不能把 Proxy 的静态清单冒充 Web 的策略修订清单。网站方接入 Proxy 时应调用 `preparePublication()` 的函数返回值，并继续由现有 pipeline 执行版本预读、提交、Tag/Release、回读、缓存和活动切换。固定完整输入 fixture 位于 `tests/fixtures/relaydeck-publication-input.mjs`。
 
 ## 9. 发布前检查清单
 

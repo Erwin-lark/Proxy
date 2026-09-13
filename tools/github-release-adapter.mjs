@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildManifest, ROOT } from './proxy-manifest.mjs';
@@ -6,6 +7,10 @@ function mismatch(message, code = 'proxy_release_readback_mismatch') {
   const error = new Error(message);
   error.code = code;
   return error;
+}
+
+function sha256(value) {
+  return createHash('sha256').update(value).digest('hex');
 }
 
 /**
@@ -18,11 +23,17 @@ export function preparePublication({ root = ROOT, releaseId = 'v1.0', createdAt 
   const files = manifest.files.map(entry => ({
     path: entry.path,
     content: readFileSync(join(root, entry.path), 'utf8'),
+    // Web github-write-client.stableFiles 使用此字段在提交入口校验正文未被篡改。
+    contentHash: entry.sha256,
+    byteLength: entry.bytes,
   }));
+  const manifestContent = `${JSON.stringify(manifest)}\n`;
   files.push({
     path: `releases/${releaseId}/manifest.json`,
     // 与 RelayDeck github-write-client.safeFiles 的 manifest 字节合同保持一致。
-    content: `${JSON.stringify(manifest)}\n`,
+    content: manifestContent,
+    contentHash: sha256(manifestContent),
+    byteLength: Buffer.byteLength(manifestContent),
   });
   return Object.freeze({
     version: releaseId,

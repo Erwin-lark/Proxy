@@ -7,6 +7,7 @@ import { createGitHubReadbackClient } from '../tools/github-readback.mjs';
 import { summarizePublication } from '../tools/prepare-publication.mjs';
 import { ROOT } from '../tools/proxy-manifest.mjs';
 import { readbackRelease } from '../tools/readback-release.mjs';
+import { createRelayDeckPublicationInputFixture } from './fixtures/relaydeck-publication-input.mjs';
 
 test('v1.0 manifest is deterministic and reads back every managed asset', () => {
   const result = readbackRelease({ releaseId: 'v1.0' });
@@ -20,6 +21,8 @@ test('publication adapter prepares a safe RelayDeck-compatible tree without netw
   assert.equal(prepared.version, 'v1.0');
   assert.equal(prepared.files.at(-1).path, 'releases/v1.0/manifest.json');
   assert.equal(prepared.files.at(-1).content, `${JSON.stringify(prepared.manifest)}\n`);
+  assert.equal(prepared.files.every(file => /^[a-f0-9]{64}$/.test(file.contentHash)), true);
+  assert.equal(prepared.files.every(file => file.byteLength === Buffer.byteLength(file.content)), true);
   assert.equal(prepared.files.some(file => /(?:token|password|secret|privateKey)/i.test(file.content)), false);
   const readback = verifyPublicationReadback(prepared, {
     version: 'v1.0', releaseId: 'v1.0', manifestHash: prepared.manifest.manifestHash,
@@ -52,6 +55,18 @@ test('prepare-publication emits a digest-only summary and performs no network wr
   assert.equal(cliSummary.manifestHash, summary.manifestHash);
   assert.equal(cliSummary.files.length, prepared.files.length);
   assert.equal(cliSummary.files.some(file => Object.hasOwn(file, 'content')), false);
+});
+
+test('RelayDeck fixture exposes the complete publication input, not the CLI summary', () => {
+  const fixture = createRelayDeckPublicationInputFixture();
+  assert.equal(fixture.version, 'v1.0');
+  assert.equal(fixture.releaseId, 'v1.0');
+  assert.equal(Array.isArray(fixture.manifest.files), true);
+  assert.equal(fixture.files.length, fixture.manifest.files.length + 1);
+  assert.equal(fixture.files.every(file => typeof file.content === 'string'), true);
+  assert.equal(fixture.files.every(file => /^[a-f0-9]{64}$/.test(file.contentHash)), true);
+  assert.equal(Object.hasOwn(fixture, 'mode'), false);
+  assert.equal(Object.hasOwn(fixture, 'networkWrites'), false);
 });
 
 function response(status, payload) {
