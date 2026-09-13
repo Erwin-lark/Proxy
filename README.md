@@ -14,7 +14,7 @@ RelayDeck 是节点订阅与完整远程配置的唯一生产生成和发布源�
 
 ## 维护与 RelayDeck 接入
 
-请阅读[运行手册](RUNBOOK.md)，其中定义了客户端目录分层、资产清单、版本与哈希校验、RelayDeck 接入门禁、发布和回滚流程。`npm run validate` 可在本地执行清单回读和公开信息扫描；它不连接 GitHub，也不执行发布。
+请阅读[运行手册](RUNBOOK.md)，其中定义了客户端目录分层、资产清单、版本与哈希校验、RelayDeck 接入门禁、发布和回滚流程。`npm run validate` 可在本地执行清单回读和公开信息扫描；`npm run remote-readback` 只读核验已存在的公开 GitHub 版本，不执行发布。
 
 ## 安全边界
 

@@ -10,6 +10,7 @@
     "check": "node --test",
     "manifest": "node tools/proxy-manifest.mjs",
     "validate": "node tools/validate-proxy.mjs",
-    "readback": "node tools/readback-release.mjs"
+    "readback": "node tools/readback-release.mjs",
+    "remote-readback": "node tools/github-readback.mjs"
   }
 }

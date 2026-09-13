@@ -56,6 +56,7 @@ Proxy/
     proxy-manifest.mjs
     readback-release.mjs
     github-release-adapter.mjs
+    github-readback.mjs
     validate-proxy.mjs
   tests/
   # 后续按需加入：assets/scripts、assets/plugins、assets/icons、assets/config-templates
@@ -133,12 +134,18 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 6. 提交到 `main` 前，确认 Raw 内容可公开且不携带动态生产数据。
 7. RelayDeck 在后续草稿流程中引用指定版本；未经预览与人工确认不得发布到客户端。
 
+本地最低检查为 `npm run check`、`npm run validate` 和 `npm run readback -- --release v1.0`。远端版本存在时，可运行 `npm run remote-readback -- --owner Erwin-lark --repo Proxy --version v1.0` 做只读回读；它按 tag、commit、Release、manifest 和 manifest 中的每个文件逐项校验，不带 GitHub 凭据，不执行任何写操作。远端没有该 tag 时返回安全的空结果，不能把它解释为发布成功。
+
 ## 8. 版本、发布与回滚
 
 - `main` 代表当前可用的公开静态资产，不代表 RelayDeck 的活动生产版本。
 - 每个可供 RelayDeck 采用的资产集合应创建 Git Tag。
 - 破坏性变更必须提升主版本或创建新的资产 ID；不能悄悄改变已发布资产的语义。
 - 回滚时先在 RelayDeck 选择已验证的历史版本；如需回退静态资产，使用 Git Tag 或对应 commit，而不是覆盖历史文件。
+
+### RelayDeck 发布输入合同
+
+`tools/github-release-adapter.mjs` 的 `preparePublication()` 输出 `{version, releaseId, manifest, files, commitMessage}`，其中 `files` 包含根目录兼容资产、受管元数据和 `releases/<releaseId>/manifest.json`。manifest 文件使用单行 JSON，与 RelayDeck `github-write-client.safeFiles` 的字节合同一致。该模块只准备输入并校验回读身份；reserve、commit/tree、分支更新、tag、Release、缓存和活动切换仍由 RelayDeck 的可恢复任务流水线负责。
 
 ## 9. 发布前检查清单
 
@@ -152,4 +159,4 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 ## 10. 当前状态
 
-当前仓库保留三端基础远端规则文件，并已建立第一版 `source/`、`rules/`、`releases/v1.0/` 与本地校验工具。`npm run check` 验证本地适配器和版本回读，`npm run validate` 验证清单哈希、路径安全和敏感信息边界。当前工具只准备 RelayDeck 的发布输入，不连接 GitHub、不创建 tag/Release，也不代表 Proxy 已正式发布到生产。
+当前仓库保留三端基础远端规则文件，并已建立第一版 `source/`、`rules/`、`releases/v1.0/` 与本地校验工具。`npm run check` 验证本地适配器和 mock 远端回读，`npm run validate` 验证清单哈希、路径安全和敏感信息边界；`npm run remote-readback` 只读真实公开仓库，远端没有对应版本时安全返回空结果。当前工具只准备 RelayDeck 的发布输入，不创建 tag/Release，也不代表 Proxy 已正式发布到生产。
