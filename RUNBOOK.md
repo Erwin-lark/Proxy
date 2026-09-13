@@ -154,6 +154,8 @@ RelayDeck 接入 `Proxy` 时应遵循以下规则：
 
 本地最低检查为 `npm run check`、`npm run validate`、`npm run validate-target-tree` 和 `npm run readback -- --release v1.0`。目标树验收若要重现 R1/R2：先在 R1 source 状态运行 `npm run target-tree -- --release r1`，修改 source 后再运行 `npm run target-tree -- --release r2`；不要用新 source 覆盖历史 release。远端版本存在时，可运行 `npm run remote-readback -- --owner Erwin-lark --repo Proxy --version v1.0` 做只读回读；它按 tag、commit、Release、manifest 和 manifest 中的每个文件逐项校验，不带 GitHub 凭据，不执行任何写操作。远端没有该 tag 时返回安全的空结果，不能把它解释为发布成功。
 
+公开分支或针对 `main` 的 Pull Request 会触发 `.github/workflows/validate.yml`。CI 固定使用 Node.js 22，并以只读 `contents` 权限运行 `npm run check`、`npm run validate` 和 `npm run validate-target-tree`；它不读取 GitHub 凭据、不创建 Tag/Release，也不连接 RelayDeck。由于 RelayDeck 是独立仓库，跨仓库合同测试仍需在本地同时提供 `RELAYDECK_WEB_ROOT` 后单独运行，不能把公开 CI 的自包含通过误解为 Web 或生产通过。
+
 在提交给 RelayDeck 前，可运行 `npm run prepare-publication -- --release v1.0` 查看待发布摘要。输出只包含路径、字节数、SHA-256、目标客户端和用途，不包含资产正文；`networkWrites: false` 表示该命令不会调用 GitHub、不会更新分支、不会创建 Tag/Release。
 
 需要做跨仓库合同验收时，在独立的 Web worktree 上设置 `RELAYDECK_WEB_ROOT`，运行 `RELAYDECK_WEB_ROOT="<Web-worktree>" node --test tests/relaydeck-github-contract.test.mjs`。该测试消费 `tests/fixtures/relaydeck-publication-input.mjs` 的完整函数返回值，覆盖成功提交、正文篡改、重复路径和版本冲突；未设置 Web 路径时，普通 `npm run check` 会安全跳过这两项交叉测试。
@@ -206,4 +208,4 @@ Proxy 静态资产清单与 Web 策略发布清单是两种不同的组件合同
 
 ## 10. 当前状态
 
-当前仓库保留三端基础远端规则文件，并已建立目标 `source/`、按服务分层的 `rules/`、真实图标资产、`releases/r1` 与 `releases/r2` 本地快照、目标 v1.1 发布 manifest，以及 `target-tree`/`target-publication` 生成校验工具。`npm run check` 验证本地适配器、发布摘要、mock 远端回读和目标树；`npm run validate` 验证全仓库清单哈希、路径安全和敏感信息边界；`npm run validate-target-tree` 验证目标 source、客户端顺序、补丁、release 文件哈希和导入合同。`npm run prepare-publication -- --release v1.1` 可输出目标树的 digest-only 发布摘要；`npm run remote-readback` 只读真实公开仓库，当前工作未创建 tag/Release、未推送 GitHub，也不代表 Proxy 已正式发布到生产。
+当前仓库保留三端基础远端规则文件，并已建立目标 `source/`、按服务分层的 `rules/`、真实图标资产、`releases/r1` 与 `releases/r2` 本地快照、目标 v1.1 发布 manifest，以及 `target-tree`/`target-publication` 生成校验工具。`npm run check` 验证本地适配器、发布摘要、mock 远端回读和目标树；`npm run validate` 验证全仓库清单哈希、路径安全和敏感信息边界；`npm run validate-target-tree` 验证目标 source、客户端顺序、补丁、release 文件哈希和导入合同。`npm run target-publication -- --release v1.1` 可输出目标树的 digest-only 发布摘要；`.github/workflows/validate.yml` 为公开分支提供 Node 22 自包含 CI。当前候选 PR 不代表 Proxy 已正式发布到 RelayDeck 生产。

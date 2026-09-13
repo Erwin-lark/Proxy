@@ -1,0 +1,37 @@
+name: Validate Proxy assets
+
+on:
+  push:
+    branches:
+      - main
+      - 'codex/**'
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Check manifests and target tree
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run self-contained tests
+        run: npm run check
+
+      - name: Validate public manifest and file hashes
+        run: npm run validate
+
+      - name: Validate source-driven target tree
+        run: npm run validate-target-tree

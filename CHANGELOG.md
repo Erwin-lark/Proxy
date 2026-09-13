@@ -4,6 +4,7 @@
 
 ## [Unreleased]
 
+- 增加只读 GitHub Actions CI：公开推送和 Pull Request 在 Node.js 22 上自动运行自包含测试、公开清单校验和 source-driven target-tree 校验；跨仓库 Web 合同仍需本地显式提供 Web worktree。
 - 完成目标树第一版：新增 `source/manifest.json`、共享/客户端顺序模型、两个服务 ruleset 的定义/上游锁/entries/patches、按服务生成的 Clash/Loon 规则、公开图标和 `releases/r1`、`releases/r2` 快照。
 - 增加 `target-tree` 生成与校验命令，覆盖三类顺序、Tag/策略绑定、补丁前置条件、导入回放、文件哈希和无节点配置门禁；Quantumult X 继续延后，不生成未验证的正式输出。
 - 增加 v1.1 target-tree 发布输入：完整纳入根级 source/rules/assets 与 r1/r2 快照，保持 v1.0 兼容输入不变；新增 digest-only 生成命令和 Web mock 合同测试。
