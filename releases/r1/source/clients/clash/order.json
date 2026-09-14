@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "client": "clash",
+  "ruleSequence": [
+    "rule-ai-messaging-speed-test",
+    "rule-hong-kong-banks",
+    "rule-final"
+  ],
+  "groupOrder": [
+    "group-global-tools",
+    "group-hk-finance",
+    "group-auto",
+    "builtin-direct"
+  ],
+  "memberOrder": {
+    "group-global-tools": ["builtin-direct", "group-auto"],
+    "group-hk-finance": ["group-auto", "builtin-direct"],
+    "group-auto": ["builtin-direct"]
+  }
+}

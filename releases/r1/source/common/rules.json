@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "id": "rule-hong-kong-banks",
+      "kind": "ruleset-ref",
+      "rulesetId": "hong-kong-banks",
+      "policyGroupId": "group-hk-finance",
+      "presentIn": ["clash", "loon"],
+      "tags": ["finance", "core"]
+    },
+    {
+      "id": "rule-ai-messaging-speed-test",
+      "kind": "ruleset-ref",
+      "rulesetId": "ai-messaging-speed-test",
+      "policyGroupId": "group-global-tools",
+      "presentIn": ["clash", "loon"],
+      "tags": ["ai", "optional"]
+    },
+    {
+      "id": "rule-final",
+      "kind": "builtin",
+      "action": "FINAL",
+      "policyGroupId": "builtin-direct",
+      "presentIn": ["clash", "loon"],
+      "tags": ["fallback"]
+    }
+  ]
+}

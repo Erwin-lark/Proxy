@@ -1,0 +1,7 @@
+schema: 1
+client: mihomo
+source: source/clients/mihomo/adapter.yaml
+publicAssets:
+  - id: rules.public.clash
+    path: clash-rules.yaml
+    format: clash-yaml-payload

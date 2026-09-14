@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "client": "loon",
+  "ruleSequence": [
+    "rule-hong-kong-banks",
+    "rule-ai-messaging-speed-test",
+    "rule-final"
+  ],
+  "groupOrder": [
+    "group-hk-finance",
+    "group-global-tools",
+    "group-auto",
+    "builtin-direct"
+  ],
+  "memberOrder": {
+    "group-hk-finance": ["builtin-direct", "group-auto"],
+    "group-global-tools": ["group-auto", "builtin-direct"],
+    "group-auto": ["builtin-direct"]
+  }
+}

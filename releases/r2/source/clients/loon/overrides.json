@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "client": "loon",
+  "tagOverrides": {
+    "rule-hong-kong-banks": ["finance", "preferred-loon"],
+    "rule-ai-messaging-speed-test": ["ai", "optional-loon"]
+  },
+  "policyBindings": {
+    "rule-hong-kong-banks": "group-hk-finance",
+    "rule-ai-messaging-speed-test": "group-global-tools"
+  },
+  "settings": {
+    "publicArtifact": "no-node-strategy"
+  }
+}

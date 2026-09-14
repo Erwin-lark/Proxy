@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "serviceId": "hong-kong-banks",
+  "displayName": "Hong Kong Banks",
+  "category": "hk-banks",
+  "description": "Public banking domains mapped to the Hong Kong Finance strategy group.",
+  "supportedClients": ["clash", "loon"],
+  "format": "domain-suffix",
+  "license": "Internal-authored selection; verify upstream terms before redistribution",
+  "behavior": "domain suffix entries bind to the Hong Kong Finance policy group"
+}

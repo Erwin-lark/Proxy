@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "icon.public-routing-groups",
+      "type": "icon",
+      "client": "shared",
+      "path": "assets/common/icons/public-routing-groups.svg",
+      "format": "svg",
+      "public": true,
+      "sha256": "010c7db2881338ac1cc1f50dd8665df2033df12f5341939297c0f8ab7b72b33d",
+      "status": "active"
+    }
+  ]
+}

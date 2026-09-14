@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "target-tree-0.1.0",
+  "enabledTargets": [
+    "clash",
+    "loon"
+  ],
+  "services": [
+    {
+      "id": "ai-messaging-speed-test",
+      "displayName": "AI, Messaging and Speed Test",
+      "category": "ai-messaging-speed-test",
+      "description": "Public AI, messaging and speed-test domains mapped to the Global Tools strategy group.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Erwin-lark/Proxy/main/clash-rules.yaml",
+          "selector": "AI, messaging and speed test domains",
+          "lockedAt": "2026-09-13T00:00:00.000Z",
+          "entriesHash": "7b855ca54a9d45c21a1e4412c26ccacdb336857ce3b4ed4ef9fd80c62c52ffea",
+          "license": "Internal-authored selection; verify upstream terms before redistribution"
+        }
+      ],
+      "clientsSupported": [
+        "clash",
+        "loon"
+      ],
+      "clientsDisabled": [
+        "quantumult-x"
+      ],
+      "clientsUnsupported": [],
+      "format": "domain-suffix",
+      "behavior": "domain suffix entries bind to the Global Tools policy group",
+      "clients": {
+        "clash": {
+          "enabled": true,
+          "format": "clash-yaml-payload",
+          "path": "rules/ai-messaging-speed-test/Clash.yaml",
+          "sha256": "721402170b3391ebecc0bdf650b42354ec5aa11ec2ceb021afeccd2e9866b77f",
+          "entryCount": 5
+        },
+        "loon": {
+          "enabled": true,
+          "format": "loon-lsr",
+          "path": "rules/ai-messaging-speed-test/Loon.lsr",
+          "sha256": "33f4aeaae6f65d6a6d0bc256b67cf1daba53706828ac8c5561c2f2482337036e",
+          "entryCount": 5
+        }
+      },
+      "baseEntryCount": 4,
+      "finalEntryCount": 5,
+      "patchCount": 2
+    },
+    {
+      "id": "hong-kong-banks",
+      "displayName": "Hong Kong Banks",
+      "category": "hk-banks",
+      "description": "Public banking domains mapped to the Hong Kong Finance strategy group.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/Erwin-lark/Proxy/main/clash-rules.yaml",
+          "selector": "Hong Kong banks",
+          "lockedAt": "2026-09-13T00:00:00.000Z",
+          "entriesHash": "ba3e2086448092135ce0ce61eafd77d767d024a94104a0f4a48e2f138c1771a8",
+          "license": "Internal-authored selection; verify upstream terms before redistribution"
+        }
+      ],
+      "clientsSupported": [
+        "clash",
+        "loon"
+      ],
+      "clientsDisabled": [
+        "quantumult-x"
+      ],
+      "clientsUnsupported": [],
+      "format": "domain-suffix",
+      "behavior": "domain suffix entries bind to the Hong Kong Finance policy group",
+      "clients": {
+        "clash": {
+          "enabled": true,
+          "format": "clash-yaml-payload",
+          "path": "rules/hong-kong-banks/Clash.yaml",
+          "sha256": "f69ff953ff6cbd4a10f3570a07eb722090a5d3b1f9a54722b7828deb609c30ad",
+          "entryCount": 4
+        },
+        "loon": {
+          "enabled": true,
+          "format": "loon-lsr",
+          "path": "rules/hong-kong-banks/Loon.lsr",
+          "sha256": "9fb9399923d41d7cd42a766b1b1e74b2131f67b36ac87c031b7fa927e51ba973",
+          "entryCount": 4
+        }
+      },
+      "baseEntryCount": 4,
+      "finalEntryCount": 4,
+      "patchCount": 2
+    }
+  ]
+}

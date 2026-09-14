@@ -1,0 +1,8 @@
+schema: 1
+client: quantumult-x
+source: source/clients/quantumult-x/adapter.yaml
+publicAssets:
+  - id: rules.public.quantumult-x
+    path: quantumult-x-rules.list
+    format: quantumult-x-list
+status: reference-only

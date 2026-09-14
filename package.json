@@ -1,0 +1,20 @@
+{
+  "name": "relaydeck-proxy-assets",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node --test",
+    "manifest": "node tools/proxy-manifest.mjs",
+    "prepare-publication": "node tools/prepare-publication.mjs",
+    "validate": "node tools/validate-proxy.mjs",
+    "target-tree": "node tools/target-tree.mjs",
+    "validate-target-tree": "node tools/target-tree.mjs --validate",
+    "target-publication": "node tools/target-publication.mjs",
+    "readback": "node tools/readback-release.mjs",
+    "remote-readback": "node tools/github-readback.mjs"
+  }
+}

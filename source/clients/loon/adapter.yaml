@@ -1,0 +1,9 @@
+schema: 1
+client: loon
+format: loon-lsr
+sourceId: public-routing-groups
+assetId: rules.public.loon
+outputPath: loon-rules.lsr
+ruleSyntax: loon
+policyBinding: local-policy-name
+status: active

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "serviceId": "hong-kong-banks",
+  "patches": [
+    {
+      "id": "patch-hk-add-hsbcnet",
+      "op": "add",
+      "entry": {"id": "hk-bank-hsbcnet", "type": "domain-suffix", "value": "hsbcnet.com", "policyGroupId": "group-hk-finance", "order": 15, "presentIn": ["clash", "loon"]}
+    },
+    {
+      "id": "patch-hk-remove-citibank",
+      "op": "delete",
+      "entryId": "hk-bank-citibank"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+schema: 1
+client: quantumult-x
+format: quantumult-x-list
+sourceId: public-routing-groups
+assetId: rules.public.quantumult-x
+outputPath: quantumult-x-rules.list
+ruleSyntax: quantumult-x
+policyBinding: local-policy-name
+status: reference-only
+note: Quantumult X remains outside the enabled RelayDeck publication targets.

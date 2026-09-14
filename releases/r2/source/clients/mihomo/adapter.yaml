@@ -1,0 +1,9 @@
+schema: 1
+client: mihomo
+format: clash-yaml-payload
+sourceId: public-routing-groups
+assetId: rules.public.clash
+outputPath: clash-rules.yaml
+ruleSyntax: mihomo
+policyBinding: local-policy-name
+status: active

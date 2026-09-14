@@ -1,0 +1,19 @@
+schema: 1
+id: public-routing-groups
+version: 1.0.0
+kind: common-source
+policy: public-routing-groups
+description: Public-safe service categories shared by the client-specific rule renderings.
+categories:
+  - id: hk-banks
+    displayName: Hong Kong banks
+  - id: hk-brokers
+    displayName: Hong Kong brokers
+  - id: us-brokers
+    displayName: US brokers
+  - id: cross-border-finance
+    displayName: Cross-border finance
+  - id: ai-messaging-speed-test
+    displayName: AI, messaging and speed test
+  - id: public-software
+    displayName: Public software and downloads

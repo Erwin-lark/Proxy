@@ -1,0 +1,126 @@
+{
+  "manifestVersion": 1,
+  "sourceSchemaVersion": 1,
+  "sourceModelVersion": 1,
+  "generatorVersion": "target-tree-0.1.0",
+  "enabledTargets": [
+    "clash",
+    "loon"
+  ],
+  "serviceIds": [
+    "ai-messaging-speed-test",
+    "hong-kong-banks"
+  ],
+  "files": [
+    {
+      "path": "source/clients/clash/order.json",
+      "sha256": "1647828297f42e4e7e5fcda072f4eb2dc108b355d7d9476dfc7fd80752014b97",
+      "bytes": 443
+    },
+    {
+      "path": "source/clients/clash/overrides.json",
+      "sha256": "041662514b89220e880ddb3b9ee62556a91bde44db5af5f5c4a7bea62dde33ce",
+      "bytes": 387
+    },
+    {
+      "path": "source/clients/loon/adapter.yaml",
+      "sha256": "8606fc9a657961b8a8f1a012bbc6eeffecc7255abbec6896e7ead2eb53302b22",
+      "bytes": 191
+    },
+    {
+      "path": "source/clients/loon/order.json",
+      "sha256": "6cf092b4c41bbc5359388969566758e0d7c5c79afa2bf5cc451148c08760b84e",
+      "bytes": 442
+    },
+    {
+      "path": "source/clients/loon/overrides.json",
+      "sha256": "adde893109da7ab0a27528bf78179dc0d12d93024d47c2ea0db97c8efa9bdffa",
+      "bytes": 383
+    },
+    {
+      "path": "source/clients/mihomo/adapter.yaml",
+      "sha256": "3be1d20493bf579af2c0b4d51590bb98cd4c17a998d6c8d7c97b2a01a1a0a122",
+      "bytes": 208
+    },
+    {
+      "path": "source/clients/quantumult-x/adapter.yaml",
+      "sha256": "aa2af848120ac5c2dca76ae8c82bdda62fee0a92120a9bc46472a2326e11d9b6",
+      "bytes": 319
+    },
+    {
+      "path": "source/common/catalog.yaml",
+      "sha256": "48db5fbd7a41b156d9c6726d7875ed5c9ee310c1825b1d6293853087a2ad9ea7",
+      "bytes": 571
+    },
+    {
+      "path": "source/common/groups.json",
+      "sha256": "45e340e1708a52ed6082186d22ccbbb9b3e429f9337c1c250c6aabfc0b5cf19c",
+      "bytes": 768
+    },
+    {
+      "path": "source/common/order.json",
+      "sha256": "15c456d726e2fa6f1d5ee83b29fca2f7fad202ac5bd987df57a44b88a1044810",
+      "bytes": 422
+    },
+    {
+      "path": "source/common/rules.json",
+      "sha256": "7b970e944037a4b311140ba345ebf4bdf961d4c1a87d8ce655583b4dfca2dbc0",
+      "bytes": 716
+    },
+    {
+      "path": "source/common/settings.json",
+      "sha256": "d49ff774eb41ee281f5f3bbccb51aa0c26eb43ee0eac1bcc614333e2c36563e4",
+      "bytes": 312
+    },
+    {
+      "path": "source/rulesets/ai-messaging-speed-test/definition.json",
+      "sha256": "d41fd53d74e1ee416d5dd42400937ff6be4cc4cf618cecb640a333f004086cfc",
+      "bytes": 500
+    },
+    {
+      "path": "source/rulesets/ai-messaging-speed-test/entries.json",
+      "sha256": "2b5fe9ec71daca2b909a23a36e8c8a598fa3a33ea1e0eb945e7d4a28bb8b882b",
+      "bytes": 697
+    },
+    {
+      "path": "source/rulesets/ai-messaging-speed-test/patches.json",
+      "sha256": "044e5a6766bcb09ac5cae62fab0b4417a7445c4d3b72b6b505ed98bebdfb0161",
+      "bytes": 654
+    },
+    {
+      "path": "source/rulesets/ai-messaging-speed-test/upstream-lock.json",
+      "sha256": "fe4448ae2c590e64b7bbfcd95e280835538303fde119126e49914ccdd82e4d63",
+      "bytes": 406
+    },
+    {
+      "path": "source/rulesets/hong-kong-banks/definition.json",
+      "sha256": "dc877ccc4b2e0a9ecb185e7f463f4c59d556b22ab5d20a488383e30348769a27",
+      "bytes": 453
+    },
+    {
+      "path": "source/rulesets/hong-kong-banks/entries.json",
+      "sha256": "d39c957fe9333e2e9a62e269607b4d08869737852d4c3430c0d08a2538cfae26",
+      "bytes": 716
+    },
+    {
+      "path": "source/rulesets/hong-kong-banks/patches.json",
+      "sha256": "e0a035bd9a8d4722203e8b3accf8ee0cd6838479acd4821e3a21ce7cd211e66f",
+      "bytes": 429
+    },
+    {
+      "path": "source/rulesets/hong-kong-banks/upstream-lock.json",
+      "sha256": "b59da83bf85c61b807b62b376970cf05ec68e6c9445193b9b2703c6219d53816",
+      "bytes": 377
+    }
+  ],
+  "sourceHash": "598cab9d9ff39c3ac26fad60b2e28df4dd71c390ba58fe5748da63778a735c72",
+  "bindings": {
+    "common": "source/common",
+    "clients": {
+      "clash": "source/clients/clash",
+      "loon": "source/clients/loon"
+    },
+    "rulesets": "source/rulesets"
+  },
+  "manifestHash": "b2b1b3b58fec633fce433dbb6c0008be2d5fc0865eba29ec20aee8809f279216"
+}
